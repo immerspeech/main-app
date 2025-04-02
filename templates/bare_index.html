@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Audio Processor</title>
+</head>
+<body>
+  <h1>Upload Audio or Video</h1>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept="audio/*,video/*" required>
+    <button type="submit">Upload and Process</button>
+  </form>
+
+  {% if processed_url %}
+    <h2>Processed Audio</h2>
+    <audio controls>
+      <source src="{{ processed_url }}" type="audio/wav">
+      Your browser does not support the audio element.
+    </audio>
+  {% endif %}
+</body>
+</html>
