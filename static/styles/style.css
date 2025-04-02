@@ -218,9 +218,9 @@ body {
     text-transform: uppercase;
 }
 
+
 audio {
     width: 80%; /* Adjust width as needed */
-    max-width: 300px; /* Ensures it's not too big */
     height: 50px; /* Slightly bigger for visibility */
     margin: 10px 0;
     border-radius: 5px;
@@ -235,7 +235,11 @@ audio {
     justify-content: center;
     gap: 10px;
     min-height: 60px; /* Ensures it doesn't collapse */
-    width: 500px;
+    width: 100%;
+}
+
+#audioContainer audio {
+    pointer-events: auto;
 }
 
 .btnreg {
@@ -299,6 +303,7 @@ audio {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+
 }
 
 /* Show the overlay */

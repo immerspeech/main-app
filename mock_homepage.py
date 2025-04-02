@@ -76,6 +76,7 @@ def stream_results():
 
     return Response(stream_with_context(event_stream()), content_type="text/event-stream")
 
+
 @app.route("/audio/<filename>")
 def get_audio(filename):
     return send_from_directory("static/audio", filename)
