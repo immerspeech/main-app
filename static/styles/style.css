@@ -1,0 +1,331 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body styling */
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+    color: white;
+}
+
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* Centered container */
+.centered-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+}
+
+.controller {
+/*    background: #2f2f2f;*/
+    border-radius: 15px;
+/*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);*/
+    width: 30%;
+    max-width: 60%;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: normal;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.player {
+/*    background: #2f2f2f;*/
+    border-radius: 15px;
+/*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);*/
+    width: 100%;
+    max-width: 20%;
+    margin-top: 50px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: normal;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Logo styling */
+.logo {
+    max-width: 70%;
+    height: auto;
+    margin-bottom: 15px;
+    margin-top: 25px
+}
+
+/* Description styling */
+.description p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: white;
+    margin-bottom: 5px;
+}
+
+/* Tab switcher styling */
+.tab-switcher {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: 2px solid white;
+    margin-top: 10px;
+    border-radius: 5px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: white;
+    color: black;
+}
+
+.tab-btn:hover {
+    transform: scale(1.05);
+}   
+
+/* Tab container and content */
+.tab-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+    background: transparent;
+}
+
+.tab-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.tab-content.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.player {
+    border-radius: 15px;
+    width: 100%;
+    max-width: 20%;
+    height: 100%;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: normal;
+    flex-direction: column;
+
+    padding: 10px;
+    padding-bottom: 100px;
+    text-align: center;
+
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.audio-section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    opacity: 1;
+}
+
+.input-option-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Button styling */
+
+.btn {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 20px;
+    font-size: 1rem;
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid white;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.audio-header {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+audio {
+    width: 80%; /* Adjust width as needed */
+    max-width: 300px; /* Ensures it's not too big */
+    height: 50px; /* Slightly bigger for visibility */
+    margin: 10px 0;
+    border-radius: 5px;
+    outline: none;
+    background: linear-gradient(135deg, #e0f8e9, #f0f4ff);
+}
+
+#audioContainer {
+    display: flex; /* Ensures the audio players are aligned */
+    flex-direction: column;
+    align-items: center; /* Centers the audio players */
+    justify-content: center;
+    gap: 10px;
+    min-height: 60px; /* Ensures it doesn't collapse */
+    width: 500px;
+}
+
+.btnreg {
+    width: 160px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-top: 20px;
+    font-size: 1rem;
+    background-color: #4cbc9c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btnreg:hover {
+    transform: scale(1.05);
+}
+
+/* Pulse animation */
+.btn:active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    animation: pulse 0.4s ease-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Show the overlay */
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader {
+  margin: auto;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes spin {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(0.5) rotate(180deg);
+  }
+}
