@@ -88,7 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     audioElement.controls = true;
                     audioElement.src = data.url;
                     console.log("ASDDAdasdasasdS")
+                    
                     audioContainer.appendChild(audioElement);
+
                     console.log("ASDDASdasdasasdadsadsasd")
                     console.log("Received data:", data);
                     if (data.type === "audio") {

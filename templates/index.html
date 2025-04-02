@@ -10,16 +10,19 @@
 <body>
     <div id="overlay" class="overlay">
         <div class="loader-container">
-          <img src="entonelogo.png" alt="Logo" class="loader">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="loader">
         </div>
-        <h3 id="statusMessage"></h3>
+        <h3 id="statusMessage" class="statusMessage"></h3>
     </div>
 
     <div class="centered-container">
         <div class="controller">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="mainLogo">
             <h1>ImmerSpeech</h1>
+            <br>
             <p>Welcome to our platform, choose to upload a video or record your voice to start dubbing.</p>
             <p>Currently only Korean is available for translation</p>
+            <br>
             <div class="tab-switcher">
                 <button class="tab-btn" id="video-upload-tab" onclick="switchTab('video-upload')">Upload Video</button>
                 <button class="tab-btn" id="voice-record-tab" onclick="switchTab('voice-record')">Record Voice</button>
