@@ -1,3 +1,4 @@
+
 from flask import (
     Flask,
     request,
@@ -5,6 +6,7 @@ from flask import (
     send_from_directory,
     redirect,
     url_for,
+    jsonify
 )
 import requests
 import os
@@ -33,22 +35,22 @@ def extract_audio(video_path, output_audio_path):
 
 @app.route("/upload", methods=["POST"])
 def upload():
+    print("UPLOAD INITIATED")
     file = request.files["file"]
     if not file:
-        return "No file provided", 400
+        return jsonify({"error": "No file provided"}), 400
 
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
     if filepath.endswith(".mp4"):
         filepath = extract_audio(filepath, filepath.replace(".mp4", ".wav"))
-        
 
     # Send file to remote API
     with open(filepath, "rb") as f:
         response = requests.post(API_ENDPOINT, files={"file": f})
 
     if response.status_code != 200:
-        return f"Processing failed: {response.text}", 500
+        return jsonify({"error": f"Processing failed: {response.text}"}), 500
 
     # Save processed result
     processed_filename = "processed_" + file.filename
@@ -56,11 +58,14 @@ def upload():
     with open(processed_path, "wb") as out_file:
         out_file.write(response.content)
 
-    return render_template(
-        "bare_index.html",
-        processed_url=url_for("processed_file", filename=processed_filename),
-    )
+    print("UPLOAD COMPLETED")
+    print(processed_filename)
 
+    # Return JSON with the processed file URL
+    return jsonify({
+        "processed_url": url_for("processed_file", filename=processed_filename, _external=True),
+        "message": "Processing complete"
+    })
 
 @app.route("/processed/<filename>")
 def processed_file(filename):
