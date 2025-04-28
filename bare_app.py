@@ -117,11 +117,15 @@ def upload():
 
     print("ZIP TEMP PATH:", zip_temp_path)
 
-    return jsonify({
+    return_data = {
     "message": "Processing complete",
     "dubbed_url": url_for("serve_dubbed_audio", _external=True) + f"?path={dubbed_path}",
     "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True),
-})
+    }
+
+    print("RETURNING JSON:", return_data)  # <-- ADD THIS
+
+    return jsonify(return_data)
 
 
 @app.route("/serve_audio")

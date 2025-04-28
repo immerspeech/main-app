@@ -21,7 +21,6 @@ function handleUploadSuccess(response) {
     downloadAllBtn.style.display = "inline-block";
     console.log("SOMEONADFDUBBEDURLDONE");
 }
-
 // Enable/disable upload button based on checkbox
 checkbox.addEventListener('change', () => {
   uploadBtn.disabled = !checkbox.checked;
