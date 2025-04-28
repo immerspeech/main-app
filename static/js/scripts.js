@@ -5,7 +5,8 @@ const termsPopup = document.getElementById('termsPopup');
 const closeTermsBtn = document.getElementById('closeTermsBtn');
 
 function handleUploadSuccess(response) {
-    // Set the audio player source
+    console.log("SOMEONADFDUBBEDURL");
+    console.log(response.dubbed_url);
     const audioPlayer = document.getElementById("audioPlayer");
     const audioSource = document.getElementById("audioSource");
 
@@ -13,12 +14,12 @@ function handleUploadSuccess(response) {
     audioPlayer.load();
     audioPlayer.style.display = "block";
 
-    // Setup download button
     const downloadAllBtn = document.getElementById("downloadAllBtn");
     downloadAllBtn.onclick = () => {
         window.open(response.zip_url, "_blank");
     };
     downloadAllBtn.style.display = "inline-block";
+    console.log("SOMEONADFDUBBEDURLDONE");
 }
 
 // Enable/disable upload button based on checkbox
