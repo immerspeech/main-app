@@ -4,6 +4,23 @@ const viewTermsLink = document.getElementById('viewTermsLink');
 const termsPopup = document.getElementById('termsPopup');
 const closeTermsBtn = document.getElementById('closeTermsBtn');
 
+function handleUploadSuccess(response) {
+    // Set the audio player source
+    const audioPlayer = document.getElementById("audioPlayer");
+    const audioSource = document.getElementById("audioSource");
+
+    audioSource.src = response.dubbed_url;
+    audioPlayer.load();
+    audioPlayer.style.display = "block";
+
+    // Setup download button
+    const downloadAllBtn = document.getElementById("downloadAllBtn");
+    downloadAllBtn.onclick = () => {
+        window.open(response.zip_url, "_blank");
+    };
+    downloadAllBtn.style.display = "inline-block";
+}
+
 // Enable/disable upload button based on checkbox
 checkbox.addEventListener('change', () => {
   uploadBtn.disabled = !checkbox.checked;

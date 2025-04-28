@@ -7,7 +7,8 @@ from flask import (
     redirect,
     url_for,
     jsonify,
-    session
+    session,
+    send_file
 )
 import hashlib
 import requests
@@ -86,38 +87,48 @@ def upload():
     if not file:
         return jsonify({"error": "No file provided"}), 400
 
-    # Read the uploaded file into memory
     file_buffer = io.BytesIO(file.read())
 
-    # Send the in-memory file to the remote API
     response = requests.post(API_ENDPOINT, files={"file": ("filename.mp4", file_buffer)})
 
     if response.status_code != 200:
         print(response.text)
         return jsonify({"error": f"Processing failed: {response.text}"}), 500
 
-    # Save processed result in memory
+    # Process response ZIP
     processed_zip = io.BytesIO(response.content)
 
-    # Extract files from the processed zip
-    with zipfile.ZipFile(processed_zip, 'r') as zip_ref:
-        extracted_folder = f"/tmp/extracted_{hash(file.filename)}"  # use /tmp/ in serverless
-        os.makedirs(extracted_folder, exist_ok=True)
-        zip_ref.extractall(extracted_folder)
+    extract_folder = f"/tmp/extracted_{hash(file.filename)}"
+    os.makedirs(extract_folder, exist_ok=True)
 
-    dubbed_filename = os.path.join(extracted_folder, 'dubbed.wav')
-    concat_filename = os.path.join(extracted_folder, 'concat.wav')
+    with zipfile.ZipFile(processed_zip, 'r') as zip_ref:
+        zip_ref.extractall(extract_folder)
+
+    dubbed_path = os.path.join(extract_folder, 'dubbed.wav')
 
     print("UPLOAD COMPLETED")
 
-    # You can't permanently store, but you can send the file back immediately or upload to cloud storage (better)
+    # Save original zip to a temp file for download
+    zip_temp_path = f"/tmp/{hash(file.filename)}_processed.zip"
+    with open(zip_temp_path, "wb") as f:
+        f.write(response.content)
 
-    # (For now, return success)
+    # Return URLs to the client
     return jsonify({
         "message": "Processing complete",
-        "dubbed_available": os.path.exists(dubbed_filename),
-        "concat_available": os.path.exists(concat_filename)
+        "dubbed_url": url_for("serve_dubbed_audio", path=dubbed_path, _external=True),
+        "zip_url": url_for("serve_zip_file", path=zip_temp_path, _external=True),
     })
+
+@app.route("/serve_audio")
+def serve_dubbed_audio():
+    path = request.args.get("path")
+    return send_file(path, mimetype="audio/wav")
+
+@app.route("/serve_zip")
+def serve_zip_file():
+    path = request.args.get("path")
+    return send_file(path, mimetype="application/zip", as_attachment=True, download_name="processed.zip")
 
 @app.route("/processed/<filename>")
 def processed_file(filename):
