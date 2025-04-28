@@ -109,16 +109,18 @@ def upload():
     print("UPLOAD COMPLETED")
 
     # Save original zip to a temp file for download
-    zip_temp_path = f"/tmp/{hash(file.filename)}_processed.zip"
+    zip_id = str(hash(file.filename))  # Unique identifier
+    zip_temp_path = f"/tmp/{zip_id}_processed.zip"
+
     with open(zip_temp_path, "wb") as f:
         f.write(response.content)
+
     print("ZIP TEMP PATH:", zip_temp_path)
 
-    # Return URLs to the client
     return jsonify({
         "message": "Processing complete",
         "dubbed_url": url_for("serve_dubbed_audio", path=dubbed_path, _external=True),
-        "zip_url": url_for("serve_zip_file", path=zip_temp_path, _external=True),
+        "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True),  # <- CORRECT
     })
 
 @app.route("/serve_audio")
@@ -127,11 +129,10 @@ def serve_dubbed_audio():
     path = request.args.get("path")
     return send_file(path, mimetype="audio/wav")
 
-@app.route("/serve_zip")
-def serve_zip_file():
-    print("SERVING ZIP")
-    path = request.args.get("path")
-    return send_file(path, mimetype="application/zip", as_attachment=True, download_name="processed.zip")
+@app.route("/download_zip/<zip_id>")
+def serve_zip_file(zip_id):
+    zip_temp_path = f"/tmp/{zip_id}_processed.zip"
+    return send_file(zip_temp_path, as_attachment=True)
 
 @app.route("/processed/<filename>")
 def processed_file(filename):
