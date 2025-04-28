@@ -132,7 +132,9 @@ def upload():
 def serve_dubbed_audio():
     print("SERVING AUDIO")
     path = request.args.get("path")
-    return send_file(path, mimetype="audio/wav")
+    if not path or not os.path.exists(path):
+        return "File not found", 404
+    return send_file(path, mimetype="audio/wav", as_attachment=False)
 
 @app.route("/download_zip/<zip_id>")
 def serve_zip_file(zip_id):
