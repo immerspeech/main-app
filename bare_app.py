@@ -112,6 +112,7 @@ def upload():
     zip_temp_path = f"/tmp/{hash(file.filename)}_processed.zip"
     with open(zip_temp_path, "wb") as f:
         f.write(response.content)
+    print("ZIP TEMP PATH:", zip_temp_path)
 
     # Return URLs to the client
     return jsonify({
@@ -122,16 +123,19 @@ def upload():
 
 @app.route("/serve_audio")
 def serve_dubbed_audio():
+    print("SERVING AUDIO")
     path = request.args.get("path")
     return send_file(path, mimetype="audio/wav")
 
 @app.route("/serve_zip")
 def serve_zip_file():
+    print("SERVING ZIP")
     path = request.args.get("path")
     return send_file(path, mimetype="application/zip", as_attachment=True, download_name="processed.zip")
 
 @app.route("/processed/<filename>")
 def processed_file(filename):
+    print("SERVING PROCESSED FILE")
     return send_from_directory(PROCESSED_FOLDER, filename)
 
 if __name__ == "__main__":
