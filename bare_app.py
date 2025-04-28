@@ -6,20 +6,12 @@ from flask import (
     send_from_directory,
     redirect,
     url_for,
-    jsonify
+    jsonify,
+    session
 )
+import hashlib
 import requests
-import os
-import moviepy.editor as mp
-from pydub import AudioSegment
 import zipfile
-
-def extract_audio(video_path, output_audio_path):
-    """Extract audio from a video and save it as a .wav file."""
-    # pydub can sometimes directly open videos depending on format
-    audio = AudioSegment.from_file(video_path)
-    audio.export(output_audio_path, format="wav")
-    return output_audio_path
 
 
 app = Flask(__name__)
@@ -30,18 +22,60 @@ os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 
 API_ENDPOINT = "http://144.24.67.16/process_video/"
 
+# Supabase config
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_API_KEY = os.environ.get("SUPABASE_API_KEY")
+
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def get_user(username):
+    """Fetch user by username from Supabase."""
+    headers = {
+        "apikey": SUPABASE_API_KEY,
+        "Authorization": f"Bearer {SUPABASE_API_KEY}"
+    }
+    params = {
+        "select": "*",
+        "username": f"eq.{username}"
+    }
+    response = requests.get(f"{SUPABASE_URL}/rest/v1/users", headers=headers, params=params)
+    if response.status_code == 200 and response.json():
+        return response.json()[0]
+    return None
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        hashed_pw = hash_password(password)
+
+        user = get_user(username)
+        print(user)
+
+        if user and user['password'] == password:
+            session['username'] = user['username']
+            session['user_id'] = user['id']
+            session['counter'] = user.get('counter', 0)
+            return redirect(url_for('dashboard'))
+        else:
+            return render_template('login.html', error="Invalid username or password.")
+
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("bare_index.html")
-
-
-def extract_audio(video_path, output_audio_path):
-    """Extract audio from a video and save it as a .wav file."""
-    video = mp.VideoFileClip(video_path)
-    video.audio.write_audiofile(output_audio_path, codec="pcm_s16le")
-    return output_audio_path
-
+    if 'username' in session:
+        return render_template("bare_index.html")
+    else:
+        return redirect(url_for('login'))
 
 @app.route("/upload", methods=["POST"])
 def upload():
@@ -52,9 +86,6 @@ def upload():
 
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
-    if filepath.endswith(".mp4"):
-        filepath = extract_audio(filepath, filepath.replace(".mp4", ".wav"))
-
     # Send file to remote API
     with open(filepath, "rb") as f:
         response = requests.post(API_ENDPOINT, files={"file": f})
