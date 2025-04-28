@@ -12,6 +12,7 @@ import requests
 import os
 import moviepy.editor as mp
 from pydub import AudioSegment
+import zipfile
 
 def extract_audio(video_path, output_audio_path):
     """Extract audio from a video and save it as a .wav file."""
@@ -63,10 +64,16 @@ def upload():
         return jsonify({"error": f"Processing failed: {response.text}"}), 500
 
     # Save processed result
-    processed_filename = "processed_" + file.filename
+    processed_filename = "processed_" + file.filename[:-4] + ".zip"
     processed_path = os.path.join(PROCESSED_FOLDER, processed_filename)
     with open(processed_path, "wb") as out_file:
         out_file.write(response.content)
+    
+    with zipfile.ZipFile(processed_path, 'r') as zip_ref:
+        zip_ref.extractall(processed_path[:-4])
+    dubbed_filename = os.path.join(processed_path[:-4], 'dubbed.wav')
+    concat_filename = os.path.join(processed_path[:-4], 'concat.wav')
+
 
     print("UPLOAD COMPLETED")
     print(processed_filename)
