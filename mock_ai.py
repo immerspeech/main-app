@@ -55,11 +55,11 @@ def stream_results():
     """Simulate AI response streaming text and then returning audio."""
     def generate():
         # Send English text after 5 seconds
-        time.sleep(5)
+        # time.sleep(5)
         yield f"data: {json.dumps({'type': 'text_en', 'content': 'This is a sample English output.'})}\n\n"
 
         # Send Korean text after 5 more seconds
-        time.sleep(5)
+        # time.sleep(5)
         yield f"data: {json.dumps({'type': 'text_kr', 'content': '이것은 샘플 한국어 출력입니다.'})}\n\n"
 
         # Retrieve processed audio file
