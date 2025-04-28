@@ -82,7 +82,7 @@ def index():
 @app.route("/upload", methods=["POST"])
 def upload():
     print("UPLOAD INITIATED")
-    
+
     file = request.files["file"]
     if not file:
         return jsonify({"error": "No file provided"}), 400
@@ -98,48 +98,59 @@ def upload():
     # Process response ZIP
     processed_zip = io.BytesIO(response.content)
 
-    extract_folder = f"/tmp/extracted_{hash(file.filename)}"
+    zip_id = str(hash(file.filename))  # Unique identifier
+
+    # Setup folders and paths
+    extract_folder = f"/tmp/{zip_id}_extracted"
+    dubbed_filename = "dubbed.wav"
+    dubbed_path = os.path.join(extract_folder, dubbed_filename)
+    zip_temp_path = f"/tmp/{zip_id}_processed.zip"
+
     os.makedirs(extract_folder, exist_ok=True)
 
     with zipfile.ZipFile(processed_zip, 'r') as zip_ref:
         zip_ref.extractall(extract_folder)
 
-    dubbed_path = os.path.join(extract_folder, 'dubbed.wav')
-
-    print("UPLOAD COMPLETED")
-
-    # Save original zip to a temp file for download
-    zip_id = str(hash(file.filename))  # Unique identifier
-    zip_temp_path = f"/tmp/{zip_id}_processed.zip"
-
+    # Save original zip
     with open(zip_temp_path, "wb") as f:
         f.write(response.content)
 
     print("ZIP TEMP PATH:", zip_temp_path)
+    print("DUBBED PATH:", dubbed_path)
 
+    # Return JSON response with only IDs (no full /tmp path leaks)
     return_data = {
-    "message": "Processing complete",
-    "dubbed_url": url_for("serve_dubbed_audio", _external=True) + f"?path={dubbed_path}",
-    "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True),
+        "message": "Processing complete",
+        "dubbed_url": url_for("serve_dubbed_audio", zip_id=zip_id, _external=True),
+        "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True),
     }
 
-    print("RETURNING JSON:", return_data)  # <-- ADD THIS
+    print("RETURNING JSON:", return_data)
 
     return jsonify(return_data)
 
 
-@app.route("/serve_audio")
-def serve_dubbed_audio():
-    print("SERVING AUDIO")
-    path = request.args.get("path")
-    if not path or not os.path.exists(path):
+@app.route("/serve_audio/<zip_id>")
+def serve_dubbed_audio(zip_id):
+    print("SERVING AUDIO for zip_id:", zip_id)
+    dubbed_path = f"/tmp/{zip_id}_extracted/dubbed.wav"
+
+    if not os.path.exists(dubbed_path):
+        print("File not found:", dubbed_path)
         return "File not found", 404
-    return send_file(path, mimetype="audio/wav", as_attachment=False)
+
+    return send_file(dubbed_path, mimetype="audio/wav", as_attachment=False)
 
 @app.route("/download_zip/<zip_id>")
 def serve_zip_file(zip_id):
     zip_temp_path = f"/tmp/{zip_id}_processed.zip"
+
+    if not os.path.exists(zip_temp_path):
+        print("ZIP file not found:", zip_temp_path)
+        return "File not found", 404
+
     return send_file(zip_temp_path, as_attachment=True)
+
 
 @app.route("/processed/<filename>")
 def processed_file(filename):
