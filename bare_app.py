@@ -60,7 +60,7 @@ def login():
             session['username'] = user['username']
             session['user_id'] = user['id']
             session['counter'] = user.get('counter', 0)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('index'))
         else:
             return render_template('login.html', error="Invalid username or password.")
 
