@@ -122,7 +122,7 @@ def upload():
     return_data = {
         "message": "Processing complete",
         "dubbed_url": url_for("serve_dubbed_audio", zip_id=zip_id, _external=True),
-        "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True),
+        "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True)
     }
 
     print("RETURNING JSON:", return_data)

@@ -7,10 +7,13 @@ const closeTermsBtn = document.getElementById('closeTermsBtn');
 function handleUploadSuccess(response) {
     console.log("SOMEONADFDUBBEDURL");
     console.log(response.dubbed_url);
+
     const audioPlayer = document.getElementById("audioPlayer");
     const audioSource = document.getElementById("audioSource");
 
-    audioSource.src = response.dubbed_url;
+    audioSource.setAttribute("src", response.dubbed_url);
+
+    // Very important: reload the player after changing source
     audioPlayer.load();
     audioPlayer.style.display = "block";
 
@@ -19,8 +22,10 @@ function handleUploadSuccess(response) {
         window.open(response.zip_url, "_blank");
     };
     downloadAllBtn.style.display = "inline-block";
+
     console.log("SOMEONADFDUBBEDURLDONE");
 }
+
 // Enable/disable upload button based on checkbox
 checkbox.addEventListener('change', () => {
   uploadBtn.disabled = !checkbox.checked;
