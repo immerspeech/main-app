@@ -19,7 +19,6 @@ function handleUploadSuccess(response) {
 
     const downloadAllBtn = document.getElementById("downloadAllBtn");
     downloadAllBtn.onclick = () => {
-        // This should open the zip file correctly
         window.open(response.zip_url, "_blank");
     };
     downloadAllBtn.style.display = "inline-block";
