@@ -1,3 +1,26 @@
+const checkbox = document.getElementById('termsCheckbox');
+const uploadBtn = document.getElementById('vu-upload-btn');
+const viewTermsLink = document.getElementById('viewTermsLink');
+const termsPopup = document.getElementById('termsPopup');
+const closeTermsBtn = document.getElementById('closeTermsBtn');
+
+// Enable/disable upload button based on checkbox
+checkbox.addEventListener('change', () => {
+  uploadBtn.disabled = !checkbox.checked;
+});
+
+// Show the popup when user clicks on Terms link
+viewTermsLink.addEventListener('click', (e) => {
+  e.preventDefault();
+  termsPopup.style.display = 'flex';
+});
+
+// Close the popup
+closeTermsBtn.addEventListener('click', () => {
+  termsPopup.style.display = 'none';
+});
+
+
 // JavaScript to handle tab switching
 function switchTab(tabId) {
     const tabs = document.querySelectorAll('.tab-content');

@@ -156,6 +156,21 @@ body {
     pointer-events: none;
 }
 
+.closebtn {
+  background-color: #4CAF50;
+  border: none;
+  padding: 12px 24px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.closebtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 .tab-content.active {
     opacity: 1;
     transform: translateY(0);

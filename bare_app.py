@@ -58,6 +58,7 @@ def upload():
         response = requests.post(API_ENDPOINT, files={"file": f})
 
     if response.status_code != 200:
+        print(response.text)
         return jsonify({"error": f"Processing failed: {response.text}"}), 500
 
     # Save processed result
@@ -78,3 +79,6 @@ def upload():
 @app.route("/processed/<filename>")
 def processed_file(filename):
     return send_from_directory(PROCESSED_FOLDER, filename)
+
+if __name__ == "__main__":
+    app.run(debug=True)
