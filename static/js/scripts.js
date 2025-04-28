@@ -93,31 +93,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form.addEventListener("submit", async function (event) {
         event.preventDefault(); // Prevent default form submission
-
+    
         overlay.classList.add('active');
         statusMessage.innerText = "Uploading...";
-
+    
         let formData = new FormData(form);
         try {
             const response = await fetch("/upload", {
                 method: "POST",
                 body: formData
             });
-
+    
             const result = await response.json();
-
+    
             if (response.ok) {
                 statusMessage.innerText = "Processing complete!";
                 overlay.classList.remove('active');
-
-                // Update audio player with the processed URL
-                audioSource.src = result.processed_url;
-                audioPlayer.load(); // Reload the audio element
-                audioPlayer.style.display = 'block'; // Show the player
-                audioPlayer.play().catch(err => {
-                    console.log("Auto-play failed:", err);
-                    statusMessage.innerText = "Click play to start audio";
-                });
+    
+                // ✅ Instead of manually touching audio here, just call:
+                handleUploadSuccess(result);
+    
             } else {
                 statusMessage.innerText = `Error: ${result.error}`;
                 overlay.classList.remove('active');
@@ -127,5 +122,5 @@ document.addEventListener("DOMContentLoaded", function () {
             statusMessage.innerText = "Upload failed: " + error.message;
             overlay.classList.remove('active');
         }
-    });
+    });    
 });
