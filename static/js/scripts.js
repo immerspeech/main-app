@@ -19,12 +19,14 @@ function handleUploadSuccess(response) {
 
     const downloadAllBtn = document.getElementById("downloadAllBtn");
     downloadAllBtn.onclick = () => {
+        // This should open the zip file correctly
         window.open(response.zip_url, "_blank");
     };
     downloadAllBtn.style.display = "inline-block";
 
     console.log("SOMEONADFDUBBEDURLDONE");
 }
+
 
 // Enable/disable upload button based on checkbox
 checkbox.addEventListener('change', () => {
