@@ -11,6 +11,15 @@ from flask import (
 import requests
 import os
 import moviepy.editor as mp
+from pydub import AudioSegment
+
+def extract_audio(video_path, output_audio_path):
+    """Extract audio from a video and save it as a .wav file."""
+    # pydub can sometimes directly open videos depending on format
+    audio = AudioSegment.from_file(video_path)
+    audio.export(output_audio_path, format="wav")
+    return output_audio_path
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
@@ -70,7 +79,3 @@ def upload():
 @app.route("/processed/<filename>")
 def processed_file(filename):
     return send_from_directory(PROCESSED_FOLDER, filename)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)

@@ -9,8 +9,13 @@ app = Flask(__name__)
 
 UPLOAD_FOLDER = "uploads"
 PROCESSED_FOLDER = "processed"
+<<<<<<< HEAD
 AI_MODEL_API = "http://144.24.67.16"  # Mock AI model API
 AI_MODEL_API_ENDPOINT = "http://144.24.67.16/process_video/"
+=======
+AI_MODEL_API = "http://127.0.0.1:5001"  # Mock AI model API
+AI_MODEL_API_ENDPOINT = "http://127.0.0.1:5001/process_video"
+>>>>>>> upstream/main
 
 # Ensure necessary folders exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
