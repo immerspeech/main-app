@@ -118,10 +118,11 @@ def upload():
     print("ZIP TEMP PATH:", zip_temp_path)
 
     return jsonify({
-        "message": "Processing complete",
-        "dubbed_url": url_for("serve_dubbed_audio", path=dubbed_path, _external=True),
-        "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True),  # <- CORRECT
-    })
+    "message": "Processing complete",
+    "dubbed_url": url_for("serve_dubbed_audio", _external=True) + f"?path={dubbed_path}",
+    "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True),
+})
+
 
 @app.route("/serve_audio")
 def serve_dubbed_audio():
