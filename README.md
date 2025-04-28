@@ -1,1 +1,2 @@
-# main-app
+# immerspeech-mvp
+Immerspeech MVP

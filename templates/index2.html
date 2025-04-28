@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImmerSpeech Demo</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style2.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+    <div id="overlay" class="overlay">
+        <div class="loader-container">
+          <img src="entonelogo.png" alt="Logo" class="loader">
+        </div>
+    </div>
+
+    
+    <div class="centered-container">
+        <div class="controller">
+            
+            <img src="entonetextlogo.png" alt="Logo" class="logo">
+            
+            <div class="description">
+                <p>Welcome to our platform!</p>
+                <p>Choose your mode below to get started.</p>
+            </div>
+
+            <div class="tab-switcher">
+                <button class="tab-btn" id="box-to-beat-tab" onclick="switchTab('box-to-beat')">Box-to-Beat</button>
+                <button class="tab-btn" id="hum-to-music-tab" onclick="switchTab('hum-to-music')">Hum-to-Music</button>
+            </div>
+            <div class="tab-container" id="tab-container">
+
+                <div class="tab-content active" id="box-to-beat">
+                    <div class="input-option-container">
+                        <button class="btn" id="btb-record-btn">
+                            <i class="fa fa-microphone" style="font-size:36px;"></i>
+                        </button>
+                        <button class="btn" id="btb-upload-btn">
+                            <i class="fa fa-upload" style="font-size:36px;"></i>
+                        </button>
+                        <input id="audioInput" type="file" accept="audio/*" style="display:none;">
+                    </div>
+                    
+                </div>
+
+
+                <div class="tab-content" id="hum-to-music">
+                    <div class="input-option-container">
+                        <button class="btn" id="htm-record-btn">
+                            <i class="fa fa-microphone" style="font-size:36px;"></i>
+                        </button>
+                        <a id="midiFileLink" href="#" style="display: none;" download></a>
+                        <button class="btn" id='htm-upload-btn'>
+                            <i class="fa fa-upload" style="font-size:36px;"></i>
+                        </button>
+                        <input id="humAudioInput" type="file" accept="audio/*" class="hidden-file-input" style="display: none;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="player">
+            <div class="audio-section active" id="box-to-beat-player">
+                <h2 class="audio-header">INPUT</h2>
+                <audio id="originalAudioPlayback" controls></audio>
+
+                <h2 class="audio-header btbout">DRUM OUTPUT</h2>
+                <p id="beatboxProcessingTime" class="processing-time btbout"></p>
+                <audio class="btbout" id="beatboxAudioPlayback" controls></audio>
+            </div>
+
+            <div class="audio-section" id="hum-to-music-player">
+                <h2 class="audio-header">INPUT</h2>
+                <audio id="humAudioPlayback" controls></audio>
+            </div>
+        </div>
+
+        
+
+
+    </div>
+    <script type='text/javascript' src='{{ url_for("static", filename="js/scripts.js") }}'></script>
+</body>
+</html>

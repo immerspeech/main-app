@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>ImmerSpeech</title>
+</head>
+<body>
+    <div id="overlay" class="overlay">
+        <div class="loader-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="loader">
+        </div>
+        <h3 id="statusMessage" class="statusMessage"></h3>
+    </div>
+
+    <div class="centered-container">
+        <div class="controller">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="mainLogo">
+            <h1>ImmerSpeech</h1>
+            <br>
+            <p>Welcome to our platform, choose to upload a video or record your voice to start dubbing.</p>
+            <p>Currently only Korean is available for translation</p>
+            <br>
+            <div class="tab-switcher">
+                <button class="tab-btn" id="video-upload-tab" onclick="switchTab('video-upload')">Upload Video</button>
+                <button class="tab-btn" id="voice-record-tab" onclick="switchTab('voice-record')">Record Voice</button>
+            </div>
+            <div class="tab-container" id="tab-container">
+
+                <div class="tab-content active" id="video-upload">
+                    <div class="input-option-container">
+                        <form id="uploadForm" enctype="multipart/form-data">
+                            <label for="language" style="display: none">Select Language:</label>
+                            <select name="language" id="language" style="display: none">
+                                <option value="en">English</option>
+                                <option value="kr">Korean</option>
+                            </select>
+                            <br><br>
+                            <input id="videoInput" type="file" name="video" accept="video/mp4" style="display: none" required>
+                            <br><br>
+                            <button type="submit" style="display: none">Upload</button>
+                        </form>
+
+                        <button class="btn" id="vu-upload-btn">
+                            <i class="fa fa-upload" style="font-size:36px;"></i>
+                        </button>
+                        <input id="audioInput" type="file" accept="audio/*" style="display:none;">
+                    </div>
+                    
+                </div>
+
+
+                <div class="tab-content" id="voice-record">
+                    <div class="input-option-container">
+                        <button class="btn" id="vr-record-btn">
+                            <i class="fa fa-microphone" style="font-size:36px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+        <div class="player">
+            <h2>Results:</h2>
+            <p id="textEnglish"></p>
+            <p id="textKorean"></p>
+            <h3>Audio Outputs:</h3>
+            <div id="audioContainer"></div>
+        </div>
+    </div>
+
+    
+
+    
+   <script type='text/javascript' src='{{ url_for("static", filename="js/scripts.js") }}'></script>
+</body>
+</html>
