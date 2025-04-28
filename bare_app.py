@@ -13,7 +13,7 @@ import hashlib
 import requests
 import zipfile
 import os
-
+import io
 
 app = Flask(__name__)
 UPLOAD_FOLDER = "uploads"
@@ -81,39 +81,42 @@ def index():
 @app.route("/upload", methods=["POST"])
 def upload():
     print("UPLOAD INITIATED")
+    
     file = request.files["file"]
     if not file:
         return jsonify({"error": "No file provided"}), 400
 
-    filepath = os.path.join(UPLOAD_FOLDER, file.filename)
-    file.save(filepath)
-    # Send file to remote API
-    with open(filepath, "rb") as f:
-        response = requests.post(API_ENDPOINT, files={"file": f})
+    # Read the uploaded file into memory
+    file_buffer = io.BytesIO(file.read())
+
+    # Send the in-memory file to the remote API
+    response = requests.post(API_ENDPOINT, files={"file": ("filename.mp4", file_buffer)})
 
     if response.status_code != 200:
         print(response.text)
         return jsonify({"error": f"Processing failed: {response.text}"}), 500
 
-    # Save processed result
-    processed_filename = "processed_" + file.filename[:-4] + ".zip"
-    processed_path = os.path.join(PROCESSED_FOLDER, processed_filename)
-    with open(processed_path, "wb") as out_file:
-        out_file.write(response.content)
-    
-    with zipfile.ZipFile(processed_path, 'r') as zip_ref:
-        zip_ref.extractall(processed_path[:-4])
-    dubbed_filename = os.path.join(processed_path[:-4], 'dubbed.wav')
-    concat_filename = os.path.join(processed_path[:-4], 'concat.wav')
+    # Save processed result in memory
+    processed_zip = io.BytesIO(response.content)
 
+    # Extract files from the processed zip
+    with zipfile.ZipFile(processed_zip, 'r') as zip_ref:
+        extracted_folder = f"/tmp/extracted_{hash(file.filename)}"  # use /tmp/ in serverless
+        os.makedirs(extracted_folder, exist_ok=True)
+        zip_ref.extractall(extracted_folder)
+
+    dubbed_filename = os.path.join(extracted_folder, 'dubbed.wav')
+    concat_filename = os.path.join(extracted_folder, 'concat.wav')
 
     print("UPLOAD COMPLETED")
-    print(processed_filename)
 
-    # Return JSON with the processed file URL
+    # You can't permanently store, but you can send the file back immediately or upload to cloud storage (better)
+
+    # (For now, return success)
     return jsonify({
-        "processed_url": url_for("processed_file", filename=processed_filename, _external=True),
-        "message": "Processing complete"
+        "message": "Processing complete",
+        "dubbed_available": os.path.exists(dubbed_filename),
+        "concat_available": os.path.exists(concat_filename)
     })
 
 @app.route("/processed/<filename>")
