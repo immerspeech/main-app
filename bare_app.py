@@ -47,6 +47,22 @@ def get_user(username):
         return response.json()[0]
     return None
 
+def update_terms_agreed(user_id):
+    headers = {
+        "apikey": SUPABASE_API_KEY,
+        "Authorization": f"Bearer {SUPABASE_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    data = {
+        "terms_agreed": True
+    }
+    response = requests.patch(
+        f"{SUPABASE_URL}/rest/v1/users?id=eq.{user_id}",
+        headers=headers,
+        json=data
+    )
+    return response.status_code == 204  # Supabase returns 204 on successful update
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session: 
@@ -58,12 +74,12 @@ def login():
         hashed_pw = hash_password(password)
 
         user = get_user(username)
-        print(user)
 
         if user and user['password'] == password:
             session['username'] = user['username']
             session['user_id'] = user['id']
             session['counter'] = user.get('counter', 0)
+            update_terms_agreed(user['id'])
             return redirect(url_for('index'))
         else:
             return render_template('login.html', error="Invalid username or password.")
@@ -95,7 +111,6 @@ def upload():
     response = requests.post(API_ENDPOINT, files={"file": ("filename.mp4", file_buffer)})
 
     if response.status_code != 200:
-        print(response.text)
         return jsonify({"error": f"Processing failed: {response.text}"}), 500
 
     # Process response ZIP
@@ -118,9 +133,6 @@ def upload():
     with open(zip_temp_path, "wb") as f:
         f.write(response.content)
 
-    print("ZIP TEMP PATH:", zip_temp_path)
-    print("DUBBED PATH:", dubbed_path)
-
     # Return JSON response with only IDs (no full /tmp path leaks)
     return_data = {
         "message": "Processing complete",
@@ -128,7 +140,6 @@ def upload():
         "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True)
     }
 
-    print("RETURNING JSON:", return_data)
 
     return jsonify(return_data)
 
