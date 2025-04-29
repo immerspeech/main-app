@@ -7,6 +7,8 @@ const closeTermsBtn = document.getElementById('closeTermsBtn');
 function handleUploadSuccess(response) {
     console.log("SOMEONADFDUBBEDURL");
     console.log(response.dubbed_url);
+    console.log(response.zip_url);
+    console.log("SOMEONADFDUBBEDURasddassaL");
 
     const audioPlayer = document.getElementById("audioPlayer");
     const audioSource = document.getElementById("audioSource");
@@ -18,10 +20,14 @@ function handleUploadSuccess(response) {
     audioPlayer.style.display = "block";
 
     const downloadAllBtn = document.getElementById("downloadAllBtn");
+    
     downloadAllBtn.onclick = () => {
+        console.log("DOWNLOAD BUTTON CLICKED");
+        console.log("ZIP URL:", response.zip_url);
         window.open(response.zip_url, "_blank");
     };
     downloadAllBtn.style.display = "inline-block";
+    document.getElementById("downloadInfo").style.display = "inline-block";
 
     console.log("SOMEONADFDUBBEDURLDONE");
 }
