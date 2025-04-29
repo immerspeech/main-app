@@ -13,65 +13,7 @@
           <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="loader">
       </div>
       <h3 id="statusMessage" class="statusMessage"></h3>
-  </div><br>  <div id="termsPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center;">
-    <div style="background:#fff; padding:2rem; max-width:600px; width:90%; border-radius:8px; overflow-y:auto; max-height:80%;">
-      <h2>Terms of Service & Privacy Policy</h2>
-      <p style="font-size: 0.9rem; line-height: 1.5; color:black;">
-        Terms of Service
-        Effective Date: 2025.04.28
-        <br>
-        Welcome to ImmerSpeech.com (“Company”, “we”, “our”, or “us”).
-        These Terms of Service (“Terms”) govern your access to and use of our website, applications, services, and technologies (collectively, the "Services").
-        By accessing or using the Services, you agree to be bound by these Terms.
-        <br>
-        1. Eligibility
-        You must be at least 14 years old to use our Services. By using our Services, you represent and warrant that you meet this requirement.
-        <br>
-        2. User Content
-        "User Content" means any data, video, audio, text, or other material that you upload, submit, or transmit through the Services.
-        <br>
-        By submitting User Content, you grant us a worldwide, non-exclusive, royalty-free, transferable, sublicensable license to use, host, store, reproduce, modify, create derivative works of, publish, analyze, and otherwise exploit such User Content for the purposes of providing, operating, improving, promoting, and developing our Services, and for research, analytical, and commercial purposes, subject to applicable laws.
-        <br>
-        You represent and warrant that you have all necessary rights to grant us this license.
-        <br>
-        3. Data Collection and Use
-        We collect information you provide to us directly (such as videos, text, and metadata) and automatically when you use our Services.
-        We may use collected data to:
-        <br>
-        Provide and improve our Services,
-        <br>
-        Perform research and analysis (including trend analysis and content categorization),
-        <br>
-        Develop new features and services,
-        <br>
-        Enhance security and prevent fraud,<br>Comply with legal obligations.<br>Further details on how we collect, use, and store personal information are described in our Privacy Policy.<br>4. Prohibited Conduct
-        You agree not to:<br>Use the Services for illegal purposes;<br>Submit content you do not have the right to upload;<br>Violate intellectual property rights;<br>Attempt to interfere with the Services' operations.<br>5. Intellectual Property
-        All rights, title, and interest in and to the Services (excluding User Content) are and will remain the exclusive property of ImmerSpeech.com and its licensors.<br>6. Disclaimers
-        The Services are provided "as is" and "as available" without warranties of any kind. We disclaim all warranties, express or implied, including merchantability, fitness for a particular purpose, and non-infringement.<br>7. Limitation of Liability
-        To the maximum extent permitted by law, ImmerSpeech.com shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or relating to your use of the Services.<br>8. Indemnification
-        You agree to indemnify, defend, and hold harmless ImmerSpeech.com and its affiliates from any claims, liabilities, damages, losses, and expenses, arising from your use of the Services or your violation of these Terms.<br>9. Governing Law and Dispute Resolution
-        These Terms are governed by the laws of the Republic of Korea. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of Seoul, Korea.<br>10. Modifications
-        We may modify these Terms at any time. We will notify you of material changes by posting a notice through the Services or via email. Your continued use of the Services after any changes indicates your acceptance of the new Terms.<br>11. Contact
-        For any inquiries regarding these Terms, please contact us at:
-        andrei@immerspeech.com<br>Privacy Policy
-        Effective Date: 2025.04.28<br>ImmerSpeech.com ("we", "our", or "us") values your privacy. This Privacy Policy explains how we collect, use, store, and protect your personal information when you use our Services.<br>1. Information We Collect
-        We may collect the following types of information:<br>User Content: Videos, audio files, text, and metadata you upload.<br>Account Information: Name, email address, contact details, if you register an account.<br>Usage Data: Device information, IP addresses, access dates and times, interactions with the Services.<br>Cookies and Tracking Technologies: We may use cookies and similar technologies to enhance your experience.<br>2. How We Use Your Information
-        We use the information to:<br>Provide, maintain, and improve the Services,<br>Process and analyze content for research and trend analysis,<br>Customize and personalize the user experience,<br>Communicate with you about updates or support,<br>Protect against fraud, unauthorized activities, and security risks,<br>Comply with legal obligations.<br>3. Sharing of Information
-        We may share information:<br>With service providers and partners who perform services on our behalf,<br>In response to legal processes or regulatory requirements,<br>In connection with a merger, acquisition, or asset sale,<br>With your consent or at your direction.<br>We do not sell your personal information to third parties.<br>4. Data Storage and Security
-        Your information is stored securely using reasonable technical, administrative, and physical safeguards.
-        We retain personal data only for as long as necessary for the purposes stated in this Policy, or as required by law.<br>5. International Data Transfers
-        Your information may be transferred to and processed in countries outside your country of residence. In such cases, we ensure appropriate safeguards are in place.<br>6. Your Rights
-        Under Korean law (PIPA), you have the right to:<br>Request access to your personal data,<br>Request correction or deletion of your data,<br>Request restrictions on data processing,<br>Withdraw consent at any time.<br>To exercise your rights, please contact us at andrei@immerspeech.com.<br>7. Children's Privacy
-        Our Services are not directed to individuals under the age of 14. We do not knowingly collect personal information from children.<br>8. Changes to This Privacy Policy
-        We may update this Privacy Policy from time to time.
-        We will notify you of any significant changes by posting a notice within our Services or contacting you directly.<br>9. Contact
-        For questions about this Privacy Policy, contact:
-        andrei@immerspeech.com
-      </p>
-      <div style="text-align:right; margin-top:1rem;">
-        <button id="closeTermsBtn" class="closebtn" style="background:#333; color:#fff;">Close</button>
-      </div>
-    </div>
+
   </div><br>  <div class="centered-container">
       <div class="controller">
           <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="mainLogo">
@@ -80,16 +22,7 @@
           <p>Welcome to our platform, choose to upload a video or record your voice to start dubbing.</p>
           <p>Currently only Korean is available for translation</p>
           <br>
-          <div class="tab-switcher">
-              <button class="tab-btn" id="video-upload-tab" onclick="switchTab('video-upload')">Upload Video</button>
-              <!-- <button class="tab-btn" id="voice-record-tab" onclick="switchTab('voice-record')">Record Voice</button> -->
-          </div>
-          <div style="margin-bottom: 1rem;">
-            <input type="checkbox" id="termsCheckbox">
-            <label for="termsCheckbox">
-              I agree to the <a href="#" id="viewTermsLink">Terms of Service and Privacy Policy</a>.
-            </label>
-          </div>
+          
           <div class="tab-container" id="tab-container">
               <div class="tab-content active" id="video-upload">
                   <div class="input-option-container">

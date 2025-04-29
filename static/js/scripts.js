@@ -26,12 +26,6 @@ function handleUploadSuccess(response) {
     console.log("SOMEONADFDUBBEDURLDONE");
 }
 
-
-// Enable/disable upload button based on checkbox
-checkbox.addEventListener('change', () => {
-  uploadBtn.disabled = !checkbox.checked;
-});
-
 // Show the popup when user clicks on Terms link
 viewTermsLink.addEventListener('click', (e) => {
   e.preventDefault();

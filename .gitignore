@@ -3,3 +3,4 @@ uploads/*.wav
 processed/*
 .DS_Store
 .env
+venv
