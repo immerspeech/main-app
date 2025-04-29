@@ -26,34 +26,22 @@ function handleUploadSuccess(response) {
     console.log("SOMEONADFDUBBEDURLDONE");
 }
 
-// Show the popup when user clicks on Terms link
-viewTermsLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  termsPopup.style.display = 'flex';
-});
-
-// Close the popup
-closeTermsBtn.addEventListener('click', () => {
-  termsPopup.style.display = 'none';
-});
-
-
 // JavaScript to handle tab switching
-function switchTab(tabId) {
-    const tabs = document.querySelectorAll('.tab-content');
-    const tabButtons = document.querySelectorAll('.tab-btn');
+// function switchTab(tabId) {
+//     const tabs = document.querySelectorAll('.tab-content');
+//     const tabButtons = document.querySelectorAll('.tab-btn');
 
-    tabs.forEach(tab => tab.classList.remove('active'));
-    tabButtons.forEach(button => button.classList.remove('active'));
+//     tabs.forEach(tab => tab.classList.remove('active'));
+//     tabButtons.forEach(button => button.classList.remove('active'));
 
-    document.getElementById(tabId).classList.add('active');
-    document.getElementById(`${tabId}-tab`).classList.add('active');
-}
+//     document.getElementById(tabId).classList.add('active');
+//     document.getElementById(`${tabId}-tab`).classList.add('active');
+// }
 
 // Default to showing the first tab
-document.addEventListener('DOMContentLoaded', () => {
-    switchTab('video-upload');
-});
+// document.addEventListener('DOMContentLoaded', () => {
+//     switchTab('video-upload');
+// });
 
 const overlay = document.getElementById('overlay');
 
@@ -105,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 statusMessage.innerText = "Processing complete!";
                 overlay.classList.remove('active');
     
-                // ✅ Instead of manually touching audio here, just call:
                 handleUploadSuccess(result);
     
             } else {
