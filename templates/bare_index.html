@@ -32,6 +32,12 @@
           <p>Welcome to our platform, choose to upload a video or record your voice to start dubbing.</p>
           <p>Currently only Korean is available for translation</p>
           <br>
+          <div class="tab-switcher">
+            <button class="tab-btn" id="uploadTab" onclick="switchTab('video-upload')">Redub</button>
+            <button class="tab-btn" id="historyTab" onclick="switchTab('history')">History</button>
+            <button class="tab-btn" id="profileTab" onclick="switchTab('profile')">Profile</button>
+          </div>
+
           <div class="tab-container" id="tab-container">
               <div class="tab-content active" id="video-upload">
                   <div class="input-option-container">
@@ -46,10 +52,19 @@
                       
                   </div><br>
               </div>
+
+              <div class="tab-content" id="history">
+                <h2>COMING SOON</h2>
+              </div>
+
+              <div class="tab-content" id="profile">
+                <h2>COMING SOON</h2>
+              </div>
+
           </div>
       </div>
 
-      <div class="player">
+      <div id="playerbox" class="player" style='display: none;'>
         <div id="audioContainer">
           <audio id="audioPlayer" controls style="display: none;">
               <source id="audioSource" type="audio/wav">

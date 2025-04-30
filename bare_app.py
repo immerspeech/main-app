@@ -63,11 +63,65 @@ def update_terms_agreed(user_id):
     )
     return response.status_code == 204  # Supabase returns 204 on successful update
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if 'username' in session: 
+        return redirect(url_for('index'))
+    
+    if request.method == 'POST':
+        email = request.form['email']
+        username = request.form['username']
+        password = request.form['password']
+        promocode = request.form['promocode']
+        terms_agreed = request.form.get('terms') == 'on'
+
+        if not terms_agreed:
+            return render_template("signup.html", error="You must agree to the Terms of Service.")
+
+        hashed_pw = hash_password(password)
+
+        # Check promocode
+        promo_check = requests.get(
+            f"{SUPABASE_URL}/rest/v1/promocodes?promocode=eq.{promocode}",
+            headers={
+                "apikey": SUPABASE_API_KEY,
+                "Authorization": f"Bearer {SUPABASE_API_KEY}"
+            }
+        )
+        if promo_check.status_code != 200 or not promo_check.json():
+            return render_template("signup.html", error="Invalid promocode.")
+
+        payload = {
+            "username": username,
+            "password": hashed_pw,
+            "email": email,
+            "terms_agreed": True,
+            "seconds": promo_check.json()[0]["seconds"]
+        }
+
+        response = requests.post(
+            f"{SUPABASE_URL}/rest/v1/users",
+            headers={
+                "apikey": SUPABASE_API_KEY,
+                "Authorization": f"Bearer {SUPABASE_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json=payload
+        )
+
+        if response.status_code == 201:
+            return redirect(url_for('login'))
+        else:
+            return render_template("signup.html", error="Signup failed. Try again.")
+
+    return render_template("signup.html")
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session: 
         return redirect(url_for('index'))
-    
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -79,7 +133,6 @@ def login():
             session['username'] = user['username']
             session['user_id'] = user['id']
             session['counter'] = user.get('counter', 0)
-            update_terms_agreed(user['id'])
             return redirect(url_for('index'))
         else:
             return render_template('login.html', error="Invalid username or password.")

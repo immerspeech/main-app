@@ -3,12 +3,24 @@ const uploadBtn = document.getElementById('vu-upload-btn');
 const viewTermsLink = document.getElementById('viewTermsLink');
 const termsPopup = document.getElementById('termsPopup');
 const closeTermsBtn = document.getElementById('closeTermsBtn');
+const playerBox = document.getElementById('playerbox');
+
+function switchTab(tabId) {
+    const allTabs = document.querySelectorAll('.tab-content');
+    allTabs.forEach(tab => tab.classList.remove('active'));
+  
+    const selectedTab = document.getElementById(tabId);
+    if (selectedTab) {
+      selectedTab.classList.add('active');
+    }
+  }
+  
 
 function handleUploadSuccess(response) {
-    console.log("SOMEONADFDUBBEDURL");
-    console.log(response.dubbed_url);
-    console.log(response.zip_url);
-    console.log("SOMEONADFDUBBEDURasddassaL");
+    // console.log("SOMEONADFDUBBEDURL");
+    // console.log(response.dubbed_url);
+    // console.log(response.zip_url);
+    // console.log("SOMEONADFDUBBEDURasddassaL");
 
     const audioPlayer = document.getElementById("audioPlayer");
     const audioSource = document.getElementById("audioSource");
@@ -29,7 +41,7 @@ function handleUploadSuccess(response) {
     downloadAllBtn.style.display = "inline-block";
     document.getElementById("downloadInfo").style.display = "inline-block";
 
-    console.log("SOMEONADFDUBBEDURLDONE");
+    // console.log("SOMEONADFDUBBEDURLDONE");
 }
 
 // JavaScript to handle tab switching
@@ -109,6 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Upload error:", error);
             statusMessage.innerText = "Upload failed: " + error.message;
             overlay.classList.remove('active');
+            playerBox.style.display='block';
         }
     });    
 });
