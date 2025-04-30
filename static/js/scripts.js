@@ -42,7 +42,6 @@ function handleUploadSuccess(response) {
     downloadAllBtn.style.display = "inline-block";
     document.getElementById("downloadInfo").style.display = "inline-block";
     playerBox.style.display='block';
-
     // console.log("SOMEONADFDUBBEDURLDONE");
 }
 
@@ -70,8 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusMessage = document.getElementById("statusMessage");
     const btbUploadBtn = document.getElementById('vu-upload-btn');
     const icon = btbUploadBtn.querySelector('i');
-    const audioPlayer = document.getElementById('audioPlayer');
-    const audioSource = document.getElementById('audioSource');
 
     btbUploadBtn.addEventListener('click', function() {
         if (icon.classList.contains('fa-upload')) {
