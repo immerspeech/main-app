@@ -26,8 +26,8 @@ function handleUploadSuccess(response) {
     const audioSource = document.getElementById("audioSource");
 
     audioSource.setAttribute("src", response.dubbed_url);
+
     
-    playerBox.style.display='block';
     // Very important: reload the player after changing source
     audioPlayer.load();
     audioPlayer.style.display = "block";
@@ -41,6 +41,7 @@ function handleUploadSuccess(response) {
     };
     downloadAllBtn.style.display = "inline-block";
     document.getElementById("downloadInfo").style.display = "inline-block";
+    playerBox.style.display='block';
 
     // console.log("SOMEONADFDUBBEDURLDONE");
 }
