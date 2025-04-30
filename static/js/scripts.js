@@ -26,7 +26,8 @@ function handleUploadSuccess(response) {
     const audioSource = document.getElementById("audioSource");
 
     audioSource.setAttribute("src", response.dubbed_url);
-
+    
+    playerBox.style.display='block';
     // Very important: reload the player after changing source
     audioPlayer.load();
     audioPlayer.style.display = "block";
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Upload error:", error);
             statusMessage.innerText = "Upload failed: " + error.message;
             overlay.classList.remove('active');
-            playerBox.style.display='block';
+
         }
     });    
 });
