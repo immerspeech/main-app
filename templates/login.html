@@ -16,103 +16,7 @@
     <title>ImmerSpeech Login</title>
 </head>
 </div><br>
-<div id="termsPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center;">
-    <div style="background:#fff; padding:2rem 2rem; max-width:600px; width:90%; border-radius:8px; overflow-y:auto; max-height:80%;">
-        <h2 style="font-size: 1.5rem; text-align: center;">Terms of Service & Privacy Policy</h2>
-        <p>
 
-            <b>Effective Date:</b> 2025.04.28<br><br>
-            
-            <b>Welcome to ImmerSpeech.com</b> ("Company", "we", "our", "us"). These Terms govern your access to and use of our websites, applications, and services ("Services"). By accessing or using the Services, you agree to be bound by these Terms.<br><br>
-            
-            <b>1. Eligibility</b><br>
-            You must be at least 14 years old to use our Services.<br><br>
-            
-            <b>2. User Content</b><br>
-            "User Content" includes all videos, audio, text, metadata, or other materials uploaded or transmitted through the Services. By submitting User Content, you grant us a perpetual, worldwide, royalty-free, transferable, sublicensable license to use, host, store, reproduce, adapt, modify, create derivative works of, analyze, publish, distribute, and otherwise exploit such content for all operational, analytical, commercial, and developmental purposes.<br><br>
-            
-            <b>3. Data Collection and Use</b><br>
-            We collect personal and non-personal information you provide directly or automatically through use of our Services, including content metadata and behavioral data. We may use this data to:
-            <ul style="margin-left: 20px;">
-            <li>Provide and maintain Services;</li>
-            <li>Perform trend, content, and behavioral analysis;</li>
-            <li>Develop, test, and improve our technologies and commercial offerings;</li>
-            <li>Comply with legal obligations and respond to legal requests;</li>
-            <li>Enhance security and detect fraud or abuse.</li>
-            </ul><br>
-            
-            <b>4. Additional Data Usage Rights</b><br>
-            You agree that User Content and related metadata may be used for:
-            <ul style="margin-left: 20px;">
-            <li>Training, validation, and improvement of machine learning models;</li>
-            <li>Creation of aggregated, anonymized datasets for commercial or research use;</li>
-            <li>Publication of statistical insights, provided no personal identifiers are revealed.</li>
-            </ul><br>
-            
-            <b>5. Prohibited Conduct</b><br>
-            You agree not to misuse the Services or violate any laws.<br><br>
-            
-            <b>6. Intellectual Property</b><br>
-            All rights not expressly granted to you are reserved by ImmerSpeech.com.<br><br>
-            
-            <b>7. Disclaimers</b><br>
-            Services are provided "as is" without warranties.<br><br>
-            
-            <b>8. Limitation of Liability</b><br>
-            We are not liable for indirect, incidental, or consequential damages.<br><br>
-            
-            <b>9. Indemnification</b><br>
-            You agree to indemnify ImmerSpeech.com from any claims arising from your use of the Services.<br><br>
-            
-            <b>10. Governing Law and Dispute Resolution</b><br>
-            These Terms are governed by the laws of the Republic of Korea. Any disputes shall be resolved in Seoul courts.<br><br>
-            
-            <b>11. Changes to Terms</b><br>
-            We may modify these Terms. Continued use of the Services constitutes your acceptance.<br><br>
-            
-            <b>12. Contact</b><br>
-            Email: <a href="mailto:andrei@immerspeech.com">andrei@immerspeech.com</a><br><br>
-            
-            <b>Privacy Policy</b><br><br>
-            
-            <b>1. Information We Collect</b><br>
-            <ul style="margin-left: 20px;">
-            <li>User Content (videos, audio, text, metadata);</li>
-            <li>Account Information (name, email);</li>
-            <li>Device, location, and usage data;</li>
-            <li>Cookies and tracking technologies.</li>
-            </ul><br>
-            
-            <b>2. How We Use Information</b><br>
-            We use data to operate, improve, protect, and commercialize our Services.<br><br>
-            
-            <b>3. Sharing of Information</b><br>
-            Information may be shared with service providers, authorities (if required), and in the event of mergers or acquisitions.<br><br>
-            
-            <b>4. Data Security and Retention</b><br>
-            We use safeguards to protect your information and retain data as needed for operational or legal reasons.<br><br>
-            
-            <b>5. International Transfers</b><br>
-            Your data may be transferred to other countries with safeguards.<br><br>
-            
-            <b>6. Your Rights</b><br>
-            You may request access, correction, deletion, or restriction of your personal data under Korean law.<br><br>
-            
-            <b>7. Children's Privacy</b><br>
-            Our Services are not intended for users under 14.<br><br>
-            
-            <b>8. Changes to Privacy Policy</b><br>
-            We may update this Policy periodically.<br><br>
-            
-            <b>9. Contact</b><br>
-            Email: <a href="mailto:andrei@immerspeech.com">andrei@immerspeech.com</a>
-            
-        </p>
-      <div style="text-align:right; margin-top:1rem;">
-        <button id="closeTermsBtn" class="closebtn" style="background:#333; color:#fff;">Close</button>
-      </div>
-    </div>
-</div>
 <div class="login-wrapper">
     <img src="{{ url_for('static', filename='logoblack.png') }}" alt="Logo" class="mainLogo" style="max-width: 20%; margin: 0px">
     <h1>ImmerSpeech</h1>
@@ -120,37 +24,12 @@
     {% if error %}
         <div class="error">{{ error }}</div>
     {% endif %}
-    <form method="post" onsubmit="return validateTerms()">
+    <form method="post">
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="Password" required>
-        <div class="terms">
-            <input type="checkbox" id="termsCheckbox">
-            <label for="termsCheckbox">
-                I agree to the <a href="#" id="viewTermsLink">Terms of Service and Privacy Policy</a>.
-            </label>
-        </div>
         <input type="submit" value="Login">
     </form>
     <p style="margin-top: 10px;">Don’t have an account? <a href="{{ url_for('signup') }}">Create one</a></p>
 
 </div>
-<script>
-    function validateTerms() {
-        const checkbox = document.getElementById('termsCheckbox');
-        if (!checkbox.checked) {
-            alert("Please agree to the Terms of Service and Privacy Policy before logging in.");
-            return false;
-        }
-        return true;
-    }
-    viewTermsLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        termsPopup.style.display = 'flex';
-    });
-
-    closeTermsBtn.addEventListener('click', () => {
-        termsPopup.style.display = 'none';
-    });
-
-</script>
 </html>

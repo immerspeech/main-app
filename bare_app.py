@@ -10,9 +10,10 @@ from flask import (
     session,
     send_file
 )
-import hashlib
 import requests
+import hashlib
 import zipfile
+import bcrypt
 import os
 import io
 
@@ -29,8 +30,13 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_API_KEY = os.environ.get("SUPABASE_API_KEY")
 
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+def hash_password(password: str) -> str:
+    salt = bcrypt.gensalt()
+    hashed = bcrypt.hashpw(password.encode(), salt)
+    return hashed.decode()
+
+def verify_password(password: str, hashed: str) -> bool:
+    return bcrypt.checkpw(password.encode(), hashed.encode())
 
 def get_user(username):
     """Fetch user by username from Supabase."""
@@ -88,17 +94,19 @@ def signup():
                 "Authorization": f"Bearer {SUPABASE_API_KEY}"
             }
         )
-        if promo_check.status_code != 200 or not promo_check.json():
+        print(promo_check.json())
+        print(promo_check)
+        print(promocode)
+        if promo_check.status_code != 200:
             return render_template("signup.html", error="Invalid promocode.")
 
         payload = {
             "username": username,
             "password": hashed_pw,
             "email": email,
-            "terms_agreed": True,
-            "seconds": promo_check.json()[0]["seconds"]
+            "terms_agreed": True
         }
-
+        print(payload)
         response = requests.post(
             f"{SUPABASE_URL}/rest/v1/users",
             headers={
@@ -108,7 +116,6 @@ def signup():
             },
             json=payload
         )
-
         if response.status_code == 201:
             return redirect(url_for('login'))
         else:
@@ -125,11 +132,10 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        hashed_pw = hash_password(password)
 
         user = get_user(username)
 
-        if user and user['password'] == password:
+        if user and verify_password(password, user['password']):
             session['username'] = user['username']
             session['user_id'] = user['id']
             session['counter'] = user.get('counter', 0)
