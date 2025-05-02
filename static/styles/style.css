@@ -37,8 +37,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90%;
-
+    min-width: 100%;
 }
 
 .controller {
@@ -46,7 +45,7 @@ body {
 /*    background: rgba(0, 0, 0, 0.2);*/
     border-radius: 15px;
 /*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);*/
-    width: 30%;
+    min-width: 30%;
     max-width: 60%;
     margin-top: 50px;
     display: flex;
@@ -138,7 +137,8 @@ body {
 .tab-container {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: auto;
+    min-height: 300px;
     padding: 40px;
     display: flex;
     align-items: center;
@@ -183,7 +183,22 @@ body {
     pointer-events: all;
 }
 
+.dropdown {
+    height: auto;
+    padding: 10px 20px;
+    border: 2px solid white;
+    margin-top: 10px;
+    border-radius: 5px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
 
+.dropdown option {
+    color: black;
+}
 
 .downloadZip {
     border-radius: 15px;
@@ -215,7 +230,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
+    padding: 20px;
     margin-top: 20px;
     font-size: 1rem;
     background-color: transparent;
@@ -351,4 +366,101 @@ audio {
   50% {
     transform: scale(0.5) rotate(180deg);
   }
+}
+
+
+/* --------- RESPONSIVE DESIGN ADDITIONS --------- */
+
+/* Adjust layout for small devices */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .centered-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .controller {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 15px;
+        margin-top: 20px;
+    }
+
+    .player {
+        width: 100%;
+        max-width: 100%;
+        margin: 20px 0 0 0;
+        padding: 15px;
+    }
+
+    .tab-switcher {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tab-btn {
+        width: 100%;
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .tab-container {
+        padding: 20px 10px;
+    }
+
+    .btn, .btnreg {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        font-size: 1rem;
+        padding: 12px;
+        margin-top: 15px;
+    }
+
+    .dropdown {
+        width: 100%;
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .audio-header {
+        font-size: 1.2rem;
+    }
+
+    .mainLogo {
+        max-width: 80px;
+    }
+
+    .description p {
+        font-size: 0.95rem;
+    }
+
+    .logo {
+        max-width: 60%;
+    }
+}
+
+/* Ultra small devices */
+@media (max-width: 480px) {
+    .tab-btn {
+        font-size: 0.8rem;
+    }
+
+    .audio-header {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .mainLogo {
+        max-width: 60px;
+    }
 }

@@ -161,52 +161,68 @@ def index():
 def upload():
     print("UPLOAD INITIATED")
 
-    file = request.files["file"]
+    file = request.files.get("file")
+    target_language = request.form.get("target_language")
+
     if not file:
         return jsonify({"error": "No file provided"}), 400
+    if not target_language:
+        return jsonify({"error": "No target language provided"}), 400
 
-    file_buffer = io.BytesIO(file.read())
+    try:
+        # Read file into buffer and reset cursor
+        file_buffer = io.BytesIO()
+        file.save(file_buffer)
+        file_buffer.seek(0)  # VERY IMPORTANT
 
-    response = requests.post(API_ENDPOINT, files={"file": ("filename.mp4", file_buffer)})
+        print(file, target_language)
 
-    if response.status_code != 200:
-        return jsonify({"error": f"Processing failed: {response.text}"}), 500
+        # Send request to external API
+        response = requests.post(
+            API_ENDPOINT,
+            files={"file": ("filename.mp4", file_buffer)},
+            data={"target_language": target_language}
+        )
 
-    # Process response ZIP
-    processed_zip = io.BytesIO(response.content)
+        if response.status_code != 200:
+            print("Processing failed:", response.text)
+            return jsonify({"error": f"Processing failed: {response.text}"}), 500
 
-    zip_id = str(hash(file.filename))  # Unique identifier
+        # Process ZIP response
+        processed_zip = io.BytesIO(response.content)
+        zip_id = str(hash(file.filename))
 
-    # Setup folders and paths
-    extract_folder = f"/tmp/{zip_id}_extracted"
-    dubbed_filename = "dubbed.wav"
-    dubbed_path = os.path.join(extract_folder, dubbed_filename)
-    zip_temp_path = f"/tmp/{zip_id}_processed.zip"
+        extract_folder = f"/tmp/{zip_id}_extracted"
+        dubbed_filename = "dubbed.wav"
+        dubbed_path = os.path.join(extract_folder, dubbed_filename)
+        zip_temp_path = f"/tmp/{zip_id}_processed.zip"
 
-    os.makedirs(extract_folder, exist_ok=True)
+        os.makedirs(extract_folder, exist_ok=True)
 
-    with zipfile.ZipFile(processed_zip, 'r') as zip_ref:
-        zip_ref.extractall(extract_folder)
+        with zipfile.ZipFile(processed_zip, 'r') as zip_ref:
+            zip_ref.extractall(extract_folder)
 
-    # Save original zip
-    with open(zip_temp_path, "wb") as f:
-        f.write(response.content)
+        with open(zip_temp_path, "wb") as f:
+            f.write(response.content)
 
-    # Return JSON response with only IDs (no full /tmp path leaks)
-    return_data = {
-        "message": "Processing complete",
-        "dubbed_url": url_for("serve_dubbed_audio", zip_id=zip_id, _external=True),
-        "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True)
-    }
+        return_data = {
+            "message": "Processing complete",
+            "dubbed_url": url_for("serve_dubbed_audio", zip_id=zip_id, _external=True),
+            "zip_url": url_for("serve_zip_file", zip_id=zip_id, _external=True)
+        }
 
+        return jsonify(return_data)
 
-    return jsonify(return_data)
+    except Exception as e:
+        print("Server error:", e)
+        return jsonify({"error": "Internal server error"}), 500
+
 
 
 @app.route("/serve_audio/<zip_id>")
 def serve_dubbed_audio(zip_id):
     print("SERVING AUDIO for zip_id:", zip_id)
-    dubbed_path = f"/tmp/{zip_id}_extracted/dubbed.wav"
+    dubbed_path = f"/tmp/{zip_id}_extracted/translated_audio.wav"
 
     if not os.path.exists(dubbed_path):
         print("File not found:", dubbed_path)

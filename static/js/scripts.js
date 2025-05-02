@@ -70,6 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const btbUploadBtn = document.getElementById('vu-upload-btn');
     const icon = btbUploadBtn.querySelector('i');
 
+    const languageSelect = document.getElementById("languageSelect");
+
     btbUploadBtn.addEventListener('click', function() {
         if (icon.classList.contains('fa-upload')) {
             document.getElementById('videoInput').click();
@@ -90,37 +92,39 @@ document.addEventListener("DOMContentLoaded", function () {
             btbUploadBtn.style.backgroundColor = '#4caf50';
         }
     });
-
+      
     form.addEventListener("submit", async function (event) {
         event.preventDefault(); // Prevent default form submission
-    
+      
         overlay.classList.add('active');
         statusMessage.innerText = "Uploading...";
-    
+      
         let formData = new FormData(form);
+      
+        // Append the target language to formData
+        const selectedLanguage = languageSelect.value;
+        formData.append("target_language", selectedLanguage);
+      
         try {
-            const response = await fetch("/upload", {
-                method: "POST",
-                body: formData
-            });
-    
-            const result = await response.json();
-    
-            if (response.ok) {
-                statusMessage.innerText = "Processing complete!";
-                overlay.classList.remove('active');
-    
-                handleUploadSuccess(result);
-    
-            } else {
-                statusMessage.innerText = `Error: ${result.error}`;
-                overlay.classList.remove('active');
-            }
-        } catch (error) {
-            console.error("Upload error:", error);
-            statusMessage.innerText = "Upload failed: " + error.message;
+          const response = await fetch("/upload", {
+            method: "POST",
+            body: formData
+          });
+      
+          const result = await response.json();
+      
+          if (response.ok) {
+            statusMessage.innerText = "Processing complete!";
             overlay.classList.remove('active');
-
+            handleUploadSuccess(result);
+          } else {
+            statusMessage.innerText = `Error: ${result.error}`;
+            overlay.classList.remove('active');
+          }
+        } catch (error) {
+          console.error("Upload error:", error);
+          statusMessage.innerText = "Upload failed: " + error.message;
+          overlay.classList.remove('active');
         }
-    });    
+    });  
 });

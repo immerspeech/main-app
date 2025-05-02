@@ -29,8 +29,8 @@
           <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="mainLogo">
           <h1>ImmerSpeech</h1>
           <br>
-          <p>Welcome to our platform, choose to upload a video or record your voice to start dubbing.</p>
-          <p>Currently only Korean is available for translation</p>
+          <p>Welcome to our platform, upload a video to start dubbing.</p>
+          <p>Currently only Korean and English are available for translation.</p>
           <br>
           <div class="tab-switcher">
             <button class="tab-btn" id="uploadTab" onclick="switchTab('video-upload')">Redub</button>
@@ -39,19 +39,28 @@
           </div>
 
           <div class="tab-container" id="tab-container">
-              <div class="tab-content active" id="video-upload">
-                  <div class="input-option-container">
-                      <form id="uploadForm" enctype="multipart/form-data">
-                          <input type="file" id="videoInput" name="file" accept="audio/*,video/*" style="display: none" required>
-                          <button type="submit" style="display: none">Upload</button>
-                      </form>
-                      
-                      <button class="btn" id="vu-upload-btn">
-                          <i class="fa fa-upload" style="font-size:36px;"></i>
-                      </button>
-                      
-                  </div><br>
-              </div>
+            <div class="tab-content active" id="video-upload">
+              <label for="languageSelect" style="color: white;">Target Language:</label>
+                <select id="languageSelect" name="target_language" class="dropdown" style="margin-bottom: 10px;">
+                  <option value="koen">Korean to English</option>
+                  <option value="enko">English to Korean</option>
+                </select>
+              <div class="input-option-container">
+                <!-- Language Selector Dropdown -->
+                
+            
+                <!-- Upload Form -->
+                <form id="uploadForm" enctype="multipart/form-data">
+                  <input type="file" id="videoInput" name="file" accept="audio/*,video/*" style="display: none" required>
+                  <button type="submit" style="display: none">Upload</button>
+                </form>
+            
+                <!-- Upload Button -->
+                <button class="btn" id="vu-upload-btn">
+                  <i class="fa fa-upload" style="font-size:36px;"></i>
+                </button>
+              </div><br>
+            </div>
 
               <div class="tab-content" id="history">
                 <h2>COMING SOON</h2>
