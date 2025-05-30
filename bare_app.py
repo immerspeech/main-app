@@ -94,9 +94,11 @@ def signup():
                 "Authorization": f"Bearer {SUPABASE_API_KEY}"
             }
         )
+
         print(promo_check.json())
         print(promo_check)
         print(promocode)
+        
         if promo_check.status_code != 200:
             return render_template("signup.html", error="Invalid promocode.")
 
@@ -104,9 +106,12 @@ def signup():
             "username": username,
             "password": hashed_pw,
             "email": email,
-            "terms_agreed": True
+            "terms_agreed": True,
+            "promocode_used": promocode
         }
+
         print(payload)
+
         response = requests.post(
             f"{SUPABASE_URL}/rest/v1/users",
             headers={
@@ -116,6 +121,7 @@ def signup():
             },
             json=payload
         )
+
         if response.status_code == 201:
             return redirect(url_for('login'))
         else:
