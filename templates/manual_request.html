@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0MJDLE6F9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H0MJDLE6F9');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <title>ImmerSpeech</title>
+</head>
+<body>
+
+
+  <div class="centered-container">
+        <div class="controller">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="mainLogo">
+            <h1>ImmerSpeech</h1>
+            <br>
+            <p>Welcome to our platform, upload a video to start dubbing.</p>
+            <p>Select the source and target languages to get started. More languages on the way.</p>
+            <br>
+
+            <div class="container">
+                <div class="section-header">
+                </div>
+                <form class="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSds1-aVqvBl8swCSezg-DEXgfWqz5WViQ84MS4rIsyDnLho3Q/formResponse" method="POST" target="_blank">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="entry.640924652" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="accountUrl">Account URL (Instagram, YouTube, etc.) *</label>
+                        <input type="url" id="accountUrl" name="entry.1708209469" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mediaFile">URL to your video (YouTube, Instagram, GDrive...)</label>
+                        <input type="url" id="videoUrl" name="entry.1165557555" required>
+                    </div>
+                    <button type="submit" class="cta-button" style="width: 100%;">SEND</button>
+                </form>
+            </div>
+        </div>
+  </div><br>
+  
+  <script type='text/javascript' src='{{ url_for("static", filename="js/scripts.js") }}'></script>
+</body>
+</html>
+
