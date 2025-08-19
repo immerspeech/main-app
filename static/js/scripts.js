@@ -71,6 +71,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const icon = btbUploadBtn.querySelector('i');
 
     const languageSelect = document.getElementById("languageSelect");
+    const speakingSpeed = document.getElementById("speaking_speed").value;
+    const userPrompt = document.getElementById("user_prompt");
+    
 
     btbUploadBtn.addEventListener('click', function() {
         if (icon.classList.contains('fa-upload')) {
@@ -104,6 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Append the target language to formData
         const selectedLanguage = languageSelect.value;
         formData.append("target_language", selectedLanguage);
+        formData.append("speaking_speed", speakingSpeed);
+        formData.append("translate_at_once", False);
       
         try {
           const response = await fetch("/upload", {

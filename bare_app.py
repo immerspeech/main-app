@@ -159,12 +159,7 @@ def logout():
 @app.route("/", methods=["GET"])
 def index():
     if 'username' in session:
-        print(session['username'])
-        print(session['username'] != 'akim')
-        if session['username'] != 'akim':
-            return render_template("manual_request.html")
-        else:
-            return render_template("bare_index.html")
+        return render_template("bare_index.html")
     else:
         return redirect(url_for('login'))
 
