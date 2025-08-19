@@ -4,3 +4,7 @@ processed/*
 .DS_Store
 .env
 venv
+generate_srt.py
+generate_tgt_srt.py
+subtitles_10.srt
+subgen.py

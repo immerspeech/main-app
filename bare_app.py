@@ -169,6 +169,7 @@ def upload():
 
     file = request.files.get("file")
     target_language = request.form.get("target_language")
+    user_prompt = request.form.get("user_prompt")
 
     if not file:
         return jsonify({"error": "No file provided"}), 400
@@ -187,7 +188,8 @@ def upload():
         response = requests.post(
             API_ENDPOINT,
             files={"file": ("filename.mp4", file_buffer)},
-            data={"target_language": target_language}
+            data={"target_language": target_language,
+                  "user_prompt": user_prompt}
         )
 
         if response.status_code != 200:

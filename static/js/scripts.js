@@ -17,11 +17,6 @@ function switchTab(tabId) {
   
 
 function handleUploadSuccess(response) {
-    // console.log("SOMEONADFDUBBEDURL");
-    // console.log(response.dubbed_url);
-    // console.log(response.zip_url);
-    // console.log("SOMEONADFDUBBEDURasddassaL");
-
     const audioPlayer = document.getElementById("audioPlayer");
     const audioSource = document.getElementById("audioSource");
 
@@ -69,11 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const statusMessage = document.getElementById("statusMessage");
     const btbUploadBtn = document.getElementById('vu-upload-btn');
     const icon = btbUploadBtn.querySelector('i');
-
     const languageSelect = document.getElementById("languageSelect");
-    const speakingSpeed = document.getElementById("speaking_speed").value;
-    const userPrompt = document.getElementById("user_prompt");
-    
 
     btbUploadBtn.addEventListener('click', function() {
         if (icon.classList.contains('fa-upload')) {
@@ -95,41 +86,45 @@ document.addEventListener("DOMContentLoaded", function () {
             btbUploadBtn.style.backgroundColor = '#4caf50';
         }
     });
-      
+
     form.addEventListener("submit", async function (event) {
-        event.preventDefault(); // Prevent default form submission
-      
-        overlay.classList.add('active');
-        statusMessage.innerText = "Uploading...";
-      
-        let formData = new FormData(form);
-      
-        // Append the target language to formData
-        const selectedLanguage = languageSelect.value;
-        formData.append("target_language", selectedLanguage);
-        formData.append("speaking_speed", speakingSpeed);
-        formData.append("translate_at_once", False);
-      
-        try {
+      event.preventDefault();
+
+      overlay.classList.add('active');
+      statusMessage.innerText = "Uploading...";
+
+      let formData = new FormData(form);
+
+      const selectedLanguage = languageSelect.value;
+      const userPrompt = document.getElementById('user_prompt').value;
+
+      formData.append("target_language", selectedLanguage);
+      formData.append("user_prompt", userPrompt);
+
+      console.log("Data being sent:", Object.fromEntries(formData));
+
+      try {
           const response = await fetch("/upload", {
-            method: "POST",
-            body: formData
+              method: "POST",
+              body: formData
           });
-      
+
           const result = await response.json();
-      
+          console.log("Data being sent:", Object.fromEntries(formData));
+          
           if (response.ok) {
-            statusMessage.innerText = "Processing complete!";
-            overlay.classList.remove('active');
-            handleUploadSuccess(result);
+              statusMessage.innerText = "Processing complete!";
+              overlay.classList.remove('active');
+              handleUploadSuccess(result);
           } else {
-            statusMessage.innerText = `Error: ${result.error}`;
-            overlay.classList.remove('active');
+              // The error message you received would show up here.
+              statusMessage.innerText = `Error: ${result.detail || 'Processing failed'}`;
+              overlay.classList.remove('active');
           }
-        } catch (error) {
+      } catch (error) {
           console.error("Upload error:", error);
           statusMessage.innerText = "Upload failed: " + error.message;
           overlay.classList.remove('active');
-        }
-    });  
+      }
+  });
 });

@@ -139,7 +139,7 @@ body {
     position: relative;
     width: 100%;
     height: auto;
-    min-height: 300px;
+    min-height: 350px;
     padding: 40px;
     display: flex;
     align-items: center;
@@ -147,6 +147,10 @@ body {
     overflow: hidden;
     border-radius: 10px;
     background: transparent;
+}
+
+::placeholder {
+    color: white;
 }
 
 .tab-content {
@@ -161,6 +165,18 @@ body {
     transform: translateY(20px);
     transition: all 0.3s ease;
     pointer-events: none;
+}
+
+.prompt {
+    width: 100%;
+    padding: 10px 20px;
+    border: 2px solid white;
+    margin-top: 10px;
+    border-radius: 5px;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
 .closebtn {
@@ -219,6 +235,9 @@ body {
 
 .input-option-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     margin-bottom: 20px;
 }
 
